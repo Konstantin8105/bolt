@@ -14,11 +14,13 @@ func New(bc Class, bd Diameter) Bolt {
 }
 
 // Fyb - return Fyb stress
+// unit: Pa
 func (b Bolt) Fyb() Fyb {
 	return Fyb{BoltClass: b.bc}
 }
 
 // D - diameter of bolt
+// unit: meter
 func (b Bolt) D() Diameter {
 	return b.bd
 }
@@ -52,6 +54,7 @@ func (bc Class) String() string {
 }
 
 // Diameter is diameter of bolt
+// unit: meter
 type Diameter float64
 
 // Typical bolt diameters
@@ -76,6 +79,7 @@ func (bd Diameter) String() string {
 }
 
 // Table of Fyb
+// unit: Pa
 var fyb = map[Class]Stress{
 	G4p6:  240.e6,
 	G4p8:  320.e6,
@@ -87,6 +91,7 @@ var fyb = map[Class]Stress{
 }
 
 // Fyb - stress of bolt in according to table 3.1. EN1993-1-8
+// unit: Pa
 type Fyb struct {
 	Stress
 	BoltClass Class
