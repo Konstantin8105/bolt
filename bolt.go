@@ -52,7 +52,7 @@ func GetBoltDiameterList() []Diameter {
 }
 
 func (bd Diameter) String() string {
-	return fmt.Sprintf("%.1 mm", float64(bd)*1e3)
+	return fmt.Sprintf("%.1f mm", float64(bd)*1e3)
 }
 
 // Table of Fyb
