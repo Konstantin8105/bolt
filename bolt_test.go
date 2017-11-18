@@ -28,3 +28,15 @@ func TestBoltDiameter(t *testing.T) {
 		}
 	}
 }
+
+func TestFyb(t *testing.T) {
+	for pos, bc := range bolt.GetBoltClassList() {
+		var fyb = bolt.Fyb{Bc: bc}
+		if fyb.Value() <= 0.0 {
+			t.Fatalf("Fyb cannot be : %v. See position in array: %d", fyb, pos)
+		}
+		if fmt.Sprintf("%s", fyb) == "" {
+			t.Fatalf("Cannot convert to string: %v", fyb)
+		}
+	}
+}

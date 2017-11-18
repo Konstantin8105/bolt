@@ -55,28 +55,31 @@ func (bd BoltDiameter) String() string {
 	return fmt.Sprintf("%.1 mm", float64(bd)*1e3)
 }
 
-/*
-type fycS struct {
+// Table of Fyb
+var fyb = map[BoltClass]stress{
+	G4_6:  240.e6,
+	G4_8:  320.e6,
+	G5_6:  300.e6,
+	G5_8:  400.e6,
+	G6_8:  480.e6,
+	G8_8:  640.e6,
+	G10_9: 900.e6,
+}
+
+type Fyb struct {
 	stress
+	Bc BoltClass
 }
 
-func (f fycS) value(bc BoltClass) stress {
-	var fyb = map[BoltClass]stress{
-		G4_6:  240.e6,
-		G4_8:  320.e6,
-		G5_6:  300.e6,
-		G5_8:  400.e6,
-		G6_8:  480.e6,
-		G8_8:  640.e6,
-		G10_9: 900.e6,
-	}
-	return fyb[bc]
+// Value - return value of Fyb
+func (f Fyb) Value() stress {
+	return fyb[f.Bc]
 }
 
-func (f fycS) String() string {
-	return fmt.Sprintf("In according to table 3.1 EN1993-1-8 value Fyb is %s", f.value())
+func (f Fyb) String() string {
+	return fmt.Sprintf("In according to table 3.1 EN1993-1-8 value Fyb is %s", f.Value())
 }
-*/
+
 type stress float64
 
 func (s stress) String() string {
