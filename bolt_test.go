@@ -31,7 +31,7 @@ func TestBoltDiameter(t *testing.T) {
 
 func TestFyb(t *testing.T) {
 	for pos, bc := range bolt.GetBoltClassList() {
-		var fyb = bolt.Fyb{Bc: bc}
+		var fyb = bolt.Fyb{Class: bc}
 		if fyb.Value() <= 0.0 {
 			t.Fatalf("Fyb cannot be : %v. See position in array: %d", fyb, pos)
 		}

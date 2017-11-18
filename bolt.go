@@ -68,12 +68,12 @@ var fyb = map[BoltClass]stress{
 
 type Fyb struct {
 	stress
-	Bc BoltClass
+	Class BoltClass
 }
 
 // Value - return value of Fyb
 func (f Fyb) Value() stress {
-	return fyb[f.Bc]
+	return fyb[f.Class]
 }
 
 func (f Fyb) String() string {
