@@ -39,3 +39,20 @@ func TestFyb(t *testing.T) {
 		}
 	}
 }
+
+func TestBolt(t *testing.T) {
+	for _, bd := range bolt.GetBoltDiameterList() {
+		for _, bc := range bolt.GetBoltClassList() {
+			b := bolt.New(bc, bd)
+			if float64(b.Fyb().Value()) <= 0.0 {
+				t.Fatal("Cannot be Fyb <= 0.0")
+			}
+			if float64(b.D()) <= 0.0 {
+				t.Fatal("Cannot be D <= 0.0")
+			}
+			if string(b.Cl()) == "" {
+				t.Fatal("Cannot Cl == \"\"")
+			}
+		}
+	}
+}

@@ -4,8 +4,28 @@ import "fmt"
 
 // Bolt - base property of bolt
 type Bolt struct {
-	bc  Class
-	dia Diameter
+	bc Class
+	bd Diameter
+}
+
+// New - create a new bolt
+func New(bc Class, bd Diameter) Bolt {
+	return Bolt{bc: bc, bd: bd}
+}
+
+// Fyb - return Fyb stress
+func (b Bolt) Fyb() Fyb {
+	return Fyb{BoltClass: b.bc}
+}
+
+// D - diameter of bolt
+func (b Bolt) D() Diameter {
+	return b.bd
+}
+
+// Cl - class of bolt
+func (b Bolt) Cl() Class {
+	return b.bc
 }
 
 // Class is class of bolt
@@ -28,7 +48,7 @@ func GetBoltClassList() []Class {
 }
 
 func (bc Class) String() string {
-	return fmt.Sprintf("Bolt class : Cl %s", string(bc))
+	return fmt.Sprintf("Cl%s", string(bc))
 }
 
 // Diameter is diameter of bolt
@@ -52,7 +72,7 @@ func GetBoltDiameterList() []Diameter {
 }
 
 func (bd Diameter) String() string {
-	return fmt.Sprintf("%.1f mm", float64(bd)*1e3)
+	return fmt.Sprintf("HM%.0f", float64(bd)*1e3)
 }
 
 // Table of Fyb
