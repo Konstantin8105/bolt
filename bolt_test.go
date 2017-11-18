@@ -23,5 +23,8 @@ func TestBoltDiameter(t *testing.T) {
 		if db <= 0.0 {
 			t.Fatalf("Diameter of bolt cannot be : %v. See position in array: %d", float64(db), pos)
 		}
+		if fmt.Sprintf("%s", db) == "" {
+			t.Fatalf("Cannot convert to string: %v", db)
+		}
 	}
 }
