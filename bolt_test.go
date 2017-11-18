@@ -19,7 +19,7 @@ func TestBoltClass(t *testing.T) {
 
 func TestBoltDiameter(t *testing.T) {
 	for pos, db := range bolt.GetBoltDiameterList() {
-		if db <= 0.0 {
+		if db <= 0.0 || db > 0.1 {
 			t.Fatalf("Diameter of bolt cannot be : %v. See position in array: %d", float64(db), pos)
 		}
 		if db.String() == "" {
