@@ -13,18 +13,18 @@ type Class string
 
 // Typical names of bolt classes
 const (
-	G4_6  Class = "4.6"
-	G4_8  Class = "4.8"
-	G5_6  Class = "5.6"
-	G5_8  Class = "5.8"
-	G6_8  Class = "6.8"
-	G8_8  Class = "8.8"
-	G10_9 Class = "10.9"
+	G4p6  Class = "4.6"
+	G4p8  Class = "4.8"
+	G5p6  Class = "5.6"
+	G5p8  Class = "5.8"
+	G6p8  Class = "6.8"
+	G8p8  Class = "8.8"
+	G10p9 Class = "10.9"
 )
 
 // GetBoltClassList - list of all allowable bolt classes
 func GetBoltClassList() []Class {
-	return []Class{G4_6, G4_8, G5_6, G5_8, G6_8, G8_8, G10_9}
+	return []Class{G4p6, G4p8, G5p6, G5p8, G6p8, G8p8, G10p9}
 }
 
 func (bc Class) String() string {
@@ -57,13 +57,13 @@ func (bd Diameter) String() string {
 
 // Table of Fyb
 var fyb = map[Class]Stress{
-	G4_6:  240.e6,
-	G4_8:  320.e6,
-	G5_6:  300.e6,
-	G5_8:  400.e6,
-	G6_8:  480.e6,
-	G8_8:  640.e6,
-	G10_9: 900.e6,
+	G4p6:  240.e6,
+	G4p8:  320.e6,
+	G5p6:  300.e6,
+	G5p8:  400.e6,
+	G6p8:  480.e6,
+	G8p8:  640.e6,
+	G10p9: 900.e6,
 }
 
 // Fyb - stress of bolt in according to table 3.1. EN1993-1-8
