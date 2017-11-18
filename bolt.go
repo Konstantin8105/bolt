@@ -13,13 +13,13 @@ func New(bc Class, bd Diameter) Bolt {
 	return Bolt{bc: bc, bd: bd}
 }
 
-// Fyb - return Fyb stress
+// Fyb - return Fyb stress.
 // unit: Pa
 func (b Bolt) Fyb() Fyb {
 	return Fyb{BoltClass: b.bc}
 }
 
-// D - diameter of bolt
+// D - diameter of bolt.
 // unit: meter
 func (b Bolt) D() Diameter {
 	return b.bd
@@ -78,7 +78,7 @@ func (bd Diameter) String() string {
 	return fmt.Sprintf("HM%.0f", float64(bd)*1e3)
 }
 
-// Table of Fyb
+// Table of Fyb.
 // unit: Pa
 var fyb = map[Class]Stress{
 	G4p6:  240.e6,
@@ -90,7 +90,7 @@ var fyb = map[Class]Stress{
 	G10p9: 900.e6,
 }
 
-// Fyb - stress of bolt in according to table 3.1. EN1993-1-8
+// Fyb - stress of bolt in according to table 3.1. EN1993-1-8.
 // unit: Pa
 type Fyb struct {
 	Stress
@@ -106,7 +106,8 @@ func (f Fyb) String() string {
 	return fmt.Sprintf("In according to table 3.1 EN1993-1-8 value Fyb is %s", f.Value())
 }
 
-// Stress - struct of float64 for Stress values
+// Stress - struct of float64 for Stress values.
+// unit: Pa
 type Stress float64
 
 func (s Stress) String() string {
