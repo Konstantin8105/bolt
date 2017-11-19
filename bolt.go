@@ -50,6 +50,11 @@ func (b Bolt) As() AreaAs {
 	return AreaAs{Dia: b.bd}
 }
 
+// A - area of A
+func (b Bolt) A() AreaA {
+	return AreaA{Dia: b.bd}
+}
+
 // Class is class of bolt
 type Class string
 
@@ -231,7 +236,7 @@ type AreaAs struct {
 	Dia BoltDiameter
 }
 
-// Value - return value of Area As
+// Value - return value of area As (tension stress area of the bolt)
 func (as AreaAs) Value() Area {
 	bp := BoltPinch{Dia: as.Dia}
 	p := float64(bp.Value())
@@ -243,13 +248,22 @@ func (as AreaAs) String() string {
 	return fmt.Sprintf("Tension stress area of the bolt %s is %s", as.Dia, as.Value())
 }
 
+// AreaA - the gross cross-section area of bolt
+type AreaA struct {
+	Dia BoltDiameter
+}
+
+// Value - return value of area A (the gross coss-section area of bolt)
+func (aa AreaA) Value() Area {
+	dia := float64(aa.Dia)
+	return Area(math.Pi / 4. * math.Pow(dia, 2.0))
+}
+
+func (aa AreaA) String() string {
+	return fmt.Sprintf("The gross coss-section area of the bolt %s is %s", aa.Dia, aa.Value())
+}
+
 /*
-
-	private double BOLT_AREA_As(int Dia)
-	{
-	    return (new General()).CONST_M_PI/4.* pow(Dia-0.935229*BOLT_PITCH(Dia),2.);
-	}
-
 	private double BOLT_AREA_A(int Dia)
 	{
 	    return (new General()).CONST_M_PI/4.* pow(Dia,2.);
