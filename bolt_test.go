@@ -65,10 +65,14 @@ func ExampleBolt() {
 	fmt.Printf("Hole : %s\n", b.Do().Value())
 	fmt.Printf("%s\n", b.Fyb())
 	fmt.Printf("Fyb  : %s\n", b.Fyb().Value())
+	fmt.Printf("%s\n", b.Fub())
+	fmt.Printf("Fub  : %s\n", b.Fub().Value())
 	// Output:
 	// Bolt : HM24Cl8.8
 	// For bolt HM24 hole is Ø26.0 mm
 	// Hole : Ø26.0 mm
 	// In according to table 3.1 EN1993-1-8 value Fyb is 640.0 MPa
 	// Fyb  : 640.0 MPa
+	// In according to table 3.1 EN1993-1-8 value Fub is 800.0 MPa
+	// Fub  : 800.0 MPa
 }

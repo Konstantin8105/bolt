@@ -19,6 +19,12 @@ func (b Bolt) Fyb() Fyb {
 	return Fyb{BoltClass: b.bc}
 }
 
+// Fub - return Fub stress.
+// unit: Pa
+func (b Bolt) Fub() Fub {
+	return Fub{BoltClass: b.bc}
+}
+
 // D - diameter of bolt.
 // unit: meter
 func (b Bolt) D() BoltDiameter {
