@@ -8,11 +8,11 @@ import (
 // Bolt - base property of bolt
 type Bolt struct {
 	bc Class
-	bd BoltDiameter
+	bd Diameter
 }
 
 // New - create a new bolt
-func New(bc Class, bd BoltDiameter) Bolt {
+func New(bc Class, bd Diameter) Bolt {
 	return Bolt{bc: bc, bd: bd}
 }
 
@@ -30,7 +30,7 @@ func (b Bolt) Fub() Fub {
 
 // D - diameter of bolt.
 // unit: meter
-func (b Bolt) D() BoltDiameter {
+func (b Bolt) D() Diameter {
 	return b.bd
 }
 
@@ -78,36 +78,37 @@ func (bc Class) String() string {
 	return fmt.Sprintf("Cl%s", string(bc))
 }
 
-// BoltDiameter is diameter of bolt
+// Diameter is diameter of bolt
 // unit: meter
-type BoltDiameter float64
+type Diameter float64
 
 // Typical bolt diameters
 const (
-	D12 BoltDiameter = 12.e-3
-	D16 BoltDiameter = 16.e-3
-	D20 BoltDiameter = 20.e-3
-	D24 BoltDiameter = 24.e-3
-	D30 BoltDiameter = 30.e-3
-	D36 BoltDiameter = 36.e-3
-	D42 BoltDiameter = 42.e-3
-	D48 BoltDiameter = 48.e-3
+	D12 Diameter = 12.e-3
+	D16 Diameter = 16.e-3
+	D20 Diameter = 20.e-3
+	D24 Diameter = 24.e-3
+	D30 Diameter = 30.e-3
+	D36 Diameter = 36.e-3
+	D42 Diameter = 42.e-3
+	D48 Diameter = 48.e-3
 )
 
 // GetBoltDiameterList - list of all allowable bolt classes
-func GetBoltDiameterList() []BoltDiameter {
-	return []BoltDiameter{D12, D16, D20, D24, D30, D36, D42, D48}
+func GetBoltDiameterList() []Diameter {
+	return []Diameter{D12, D16, D20, D24, D30, D36, D42, D48}
 }
 
-func (bd BoltDiameter) String() string {
+func (bd Diameter) String() string {
 	return fmt.Sprintf("HM%.0f", float64(bd)*1e3)
 }
 
+// HoleDiameter - struct of bolt hole
 type HoleDiameter struct {
-	Dia BoltDiameter
+	Dia Diameter
 }
 
-var holeDiameter = map[BoltDiameter]Diameter{
+var holeDiameter = map[Diameter]DiameterDimension{
 	D12: 13e-3,
 	D16: 18e-3,
 	D20: 22e-3,
@@ -118,17 +119,18 @@ var holeDiameter = map[BoltDiameter]Diameter{
 	D48: 51e-3,
 }
 
-func (hd HoleDiameter) Value() Diameter {
+// Value - return value diameter of hole for bolt
+func (hd HoleDiameter) Value() DiameterDimension {
 	return holeDiameter[hd.Dia]
 }
 func (hd HoleDiameter) String() string {
 	return fmt.Sprintf("For bolt %s hole is %s", hd.Dia, hd.Value())
 }
 
-// Diameter - dimension of diameter
-type Diameter float64
+// DiameterDimension - dimension of diameter
+type DiameterDimension float64
 
-func (dia Diameter) String() string {
+func (dia DiameterDimension) String() string {
 	return fmt.Sprintf("Ø%s", Dimension(float64(dia)))
 }
 
@@ -196,11 +198,12 @@ func (s Stress) String() string {
 	return fmt.Sprintf("%.1f MPa", float64(s)*1.e-6)
 }
 
-type BoltPinch struct {
-	Dia BoltDiameter
+// Pinch - struct of bolt pinch
+type Pinch struct {
+	Dia Diameter
 }
 
-var boltPinch = map[BoltDiameter]Dimension{
+var boltPinch = map[Diameter]Dimension{
 	D12: 1.75e-3,
 	D16: 2.00e-3,
 	D20: 2.50e-3,
@@ -212,7 +215,7 @@ var boltPinch = map[BoltDiameter]Dimension{
 }
 
 // Value - return value of bolt pinch
-func (bp BoltPinch) Value() Dimension {
+func (bp Pinch) Value() Dimension {
 	return boltPinch[bp.Dia]
 }
 
@@ -233,13 +236,12 @@ func (a Area) String() string {
 
 // AreaAs tension stress area of the bolt
 type AreaAs struct {
-	Dia BoltDiameter
+	Dia Diameter
 }
 
 // Value - return value of area As (tension stress area of the bolt)
 func (as AreaAs) Value() Area {
-	bp := BoltPinch{Dia: as.Dia}
-	p := float64(bp.Value())
+	p := float64((Pinch{Dia: as.Dia}).Value())
 	dia := float64(as.Dia)
 	return Area(math.Pi / 4. * math.Pow(dia-0.935229*p, 2.0))
 }
@@ -250,7 +252,7 @@ func (as AreaAs) String() string {
 
 // AreaA - the gross cross-section area of bolt
 type AreaA struct {
-	Dia BoltDiameter
+	Dia Diameter
 }
 
 // Value - return value of area A (the gross coss-section area of bolt)
@@ -333,9 +335,9 @@ func (aa AreaA) String() string {
 	    out += "The tensile stress area of the bolt:\n";
 	    out += String.format("As = %.1f sq.mm\n",As);
 	    out += "\n";
-	    out += "Nominal value of the yield strenght(table 3.1 EN1993-1-8):\n";
+	    out += "Nominal value of the yield strength(table 3.1 EN1993-1-8):\n";
 	    out += String.format("Fyb  = %.1f MPA\n",EN1993_1_8_TABLE_3_1_Fyb(BS) );
-	    out += "Nominal value of the ultimate tensile strenght(table 3.1 EN1993-1-8):\n";
+	    out += "Nominal value of the ultimate tensile strength(table 3.1 EN1993-1-8):\n";
 	    out += String.format("Fub  = %.1f MPA\n",EN1993_1_8_TABLE_3_1_Fub(BS) );
 	    out += "\n";
 	    out += "Shear resistance per shear plane(table 3.4 EN1993-1-8):\n";
