@@ -231,6 +231,7 @@ type AreaAs struct {
 	Dia BoltDiameter
 }
 
+// Value - return value of Area As
 func (as AreaAs) Value() Area {
 	bp := BoltPinch{Dia: as.Dia}
 	p := float64(bp.Value())
