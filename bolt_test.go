@@ -1,6 +1,7 @@
 package bolt_test
 
 import (
+	"fmt"
 	"testing"
 
 	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
@@ -55,4 +56,19 @@ func TestBolt(t *testing.T) {
 			}
 		}
 	}
+}
+
+func ExampleBolt() {
+	b := bolt.New(bolt.G8p8, bolt.D24)
+	fmt.Printf("Bolt : %s%s\n", b.D(), b.Cl())
+	fmt.Printf("%s\n", b.Do())
+	fmt.Printf("Hole : %s\n", b.Do().Value())
+	fmt.Printf("%s\n", b.Fyb())
+	fmt.Printf("Fyb  : %s\n", b.Fyb().Value())
+	// Output:
+	// Bolt : HM24Cl8.8
+	// For bolt HM24 hole is Ø26.0 mm
+	// Hole : Ø26.0 mm
+	// In according to table 3.1 EN1993-1-8 value Fyb is 640.0 MPa
+	// Fyb  : 640.0 MPa
 }

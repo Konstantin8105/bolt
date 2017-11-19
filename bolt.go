@@ -5,11 +5,11 @@ import "fmt"
 // Bolt - base property of bolt
 type Bolt struct {
 	bc Class
-	bd Diameter
+	bd BoltDiameter
 }
 
 // New - create a new bolt
-func New(bc Class, bd Diameter) Bolt {
+func New(bc Class, bd BoltDiameter) Bolt {
 	return Bolt{bc: bc, bd: bd}
 }
 
@@ -21,8 +21,14 @@ func (b Bolt) Fyb() Fyb {
 
 // D - diameter of bolt.
 // unit: meter
-func (b Bolt) D() Diameter {
+func (b Bolt) D() BoltDiameter {
 	return b.bd
+}
+
+// Do - diameter of bolt hole.
+// unit: meter
+func (b Bolt) Do() HoleDiameter {
+	return HoleDiameter{Dia: b.bd}
 }
 
 // Cl - class of bolt
@@ -53,29 +59,58 @@ func (bc Class) String() string {
 	return fmt.Sprintf("Cl%s", string(bc))
 }
 
-// Diameter is diameter of bolt
+// BoltDiameter is diameter of bolt
 // unit: meter
-type Diameter float64
+type BoltDiameter float64
 
 // Typical bolt diameters
 const (
-	D12 Diameter = 12.e-3
-	D16 Diameter = 16.e-3
-	D20 Diameter = 20.e-3
-	D24 Diameter = 24.e-3
-	D30 Diameter = 30.e-3
-	D36 Diameter = 36.e-3
-	D42 Diameter = 42.e-3
-	D48 Diameter = 48.e-3
+	D12 BoltDiameter = 12.e-3
+	D16 BoltDiameter = 16.e-3
+	D20 BoltDiameter = 20.e-3
+	D24 BoltDiameter = 24.e-3
+	D30 BoltDiameter = 30.e-3
+	D36 BoltDiameter = 36.e-3
+	D42 BoltDiameter = 42.e-3
+	D48 BoltDiameter = 48.e-3
 )
 
 // GetBoltDiameterList - list of all allowable bolt classes
-func GetBoltDiameterList() []Diameter {
-	return []Diameter{D12, D16, D20, D24, D30, D36, D42, D48}
+func GetBoltDiameterList() []BoltDiameter {
+	return []BoltDiameter{D12, D16, D20, D24, D30, D36, D42, D48}
 }
 
-func (bd Diameter) String() string {
+func (bd BoltDiameter) String() string {
 	return fmt.Sprintf("HM%.0f", float64(bd)*1e3)
+}
+
+type HoleDiameter struct {
+	Dia BoltDiameter
+}
+
+var holeDiameter = map[BoltDiameter]Diameter{
+	D12: 13e-3,
+	D16: 18e-3,
+	D20: 22e-3,
+	D24: 26e-3,
+	D30: 33e-3,
+	D36: 39e-3,
+	D42: 45e-3,
+	D48: 51e-3,
+}
+
+func (hd HoleDiameter) Value() Diameter {
+	return holeDiameter[hd.Dia]
+}
+func (hd HoleDiameter) String() string {
+	return fmt.Sprintf("For bolt %s hole is %s", hd.Dia, hd.Value())
+}
+
+// Diameter - dimension of diameter
+type Diameter float64
+
+func (dia Diameter) String() string {
+	return fmt.Sprintf("Ø%s", Dimension(float64(dia)))
 }
 
 // Table of Fyb.
@@ -88,6 +123,18 @@ var fyb = map[Class]Stress{
 	G6p8:  480.e6,
 	G8p8:  640.e6,
 	G10p9: 900.e6,
+}
+
+// Table of Fub.
+// unit: Pa
+var fub = map[Class]Stress{
+	G4p6:  400.e6,
+	G4p8:  400.e6,
+	G5p6:  500.e6,
+	G5p8:  500.e6,
+	G6p8:  600.e6,
+	G8p8:  800.e6,
+	G10p9: 1000.e6,
 }
 
 // Fyb - stress of bolt in according to table 3.1. EN1993-1-8.
@@ -106,10 +153,53 @@ func (f Fyb) String() string {
 	return fmt.Sprintf("In according to table 3.1 EN1993-1-8 value Fyb is %s", f.Value())
 }
 
+// Fub - stress of bolt in according to table 3.1. EN1993-1-8.
+// unit: Pa
+type Fub struct {
+	Stress
+	BoltClass Class
+}
+
+// Value - return value of Fub
+func (f Fub) Value() Stress {
+	return fub[f.BoltClass]
+}
+
+func (f Fub) String() string {
+	return fmt.Sprintf("In according to table 3.1 EN1993-1-8 value Fub is %s", f.Value())
+}
+
 // Stress - struct of float64 for Stress values.
 // unit: Pa
 type Stress float64
 
 func (s Stress) String() string {
 	return fmt.Sprintf("%.1f MPa", float64(s)*1.e-6)
+}
+
+type BoltPinch struct {
+	Dia BoltDiameter
+}
+
+var boltPinch = map[BoltDiameter]Dimension{
+	D12: 1.75e-3,
+	D16: 2.00e-3,
+	D20: 2.50e-3,
+	D24: 3.00e-3,
+	D30: 3.50e-3,
+	D36: 4.00e-3,
+	D42: 4.50e-3,
+	D48: 5.00e-3,
+}
+
+// Value - return value of bolt pinch
+func (bp BoltPinch) Value() Dimension {
+	return boltPinch[bp.Dia]
+}
+
+// Dimension - type for linear dimension sizes (height, thk, width)
+type Dimension float64
+
+func (d Dimension) String() string {
+	return fmt.Sprintf("%.1f mm", float64(d)*1.e3)
 }
