@@ -67,6 +67,8 @@ func ExampleBolt() {
 	fmt.Printf("Fyb  : %s\n", b.Fyb().Value())
 	fmt.Printf("%s\n", b.Fub())
 	fmt.Printf("Fub  : %s\n", b.Fub().Value())
+	fmt.Printf("%s\n", b.As())
+
 	// Output:
 	// Bolt : HM24Cl8.8
 	// For bolt HM24 hole is Ø26.0 mm
@@ -75,4 +77,5 @@ func ExampleBolt() {
 	// Fyb  : 640.0 MPa
 	// In according to table 3.1 EN1993-1-8 value Fub is 800.0 MPa
 	// Fub  : 800.0 MPa
+	// Tension stress area of the bolt HM24 is 352.8 mm²
 }

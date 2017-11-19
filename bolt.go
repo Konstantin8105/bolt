@@ -1,6 +1,9 @@
 package bolt
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // Bolt - base property of bolt
 type Bolt struct {
@@ -40,6 +43,11 @@ func (b Bolt) Do() HoleDiameter {
 // Cl - class of bolt
 func (b Bolt) Cl() Class {
 	return b.bc
+}
+
+// As - area of As
+func (b Bolt) As() AreaAs {
+	return AreaAs{Dia: b.bd}
 }
 
 // Class is class of bolt
@@ -209,3 +217,163 @@ type Dimension float64
 func (d Dimension) String() string {
 	return fmt.Sprintf("%.1f mm", float64(d)*1.e3)
 }
+
+// Area - type of area.
+// unit - sq.meter
+type Area float64
+
+func (a Area) String() string {
+	return fmt.Sprintf("%.1f mm\u00B2", float64(a)*1.e6)
+}
+
+// AreaAs tension stress area of the bolt
+type AreaAs struct {
+	Dia BoltDiameter
+}
+
+func (as AreaAs) Value() Area {
+	bp := BoltPinch{Dia: as.Dia}
+	p := float64(bp.Value())
+	dia := float64(as.Dia)
+	return Area(math.Pi / 4. * math.Pow(dia-0.935229*p, 2.0))
+}
+
+func (as AreaAs) String() string {
+	return fmt.Sprintf("Tension stress area of the bolt %s is %s", as.Dia, as.Value())
+}
+
+/*
+
+	private double BOLT_AREA_As(int Dia)
+	{
+	    return (new General()).CONST_M_PI/4.* pow(Dia-0.935229*BOLT_PITCH(Dia),2.);
+	}
+
+	private double BOLT_AREA_A(int Dia)
+	{
+	    return (new General()).CONST_M_PI/4.* pow(Dia,2.);
+	}
+
+	private double EN1993_1_8_TABLE_3_4_FtRd(double Pub, double As, double gamma_M2)
+	{
+	    double k2 = 0.9;
+	    return k2 * Pub * As / gamma_M2;
+	}
+
+	private double EN1993_1_8_TABLE_3_4_FvRd(double Pub, double As, double gamma_M2, BOLT_CLASS _BS)
+	{
+	    double alphaV = 0.0;
+	    switch(_BS)
+	    {
+	        case g4_6 : alphaV = 0.6; break;
+	        case g4_8 : alphaV = 0.5; break;
+	        case g5_6 : alphaV = 0.6; break;
+	        case g5_8 : alphaV = 0.5; break;
+	        case g6_8 : alphaV = 0.5; break;
+	        case g8_8 : alphaV = 0.6; break;
+	        case g10_9: alphaV = 0.5; break;
+	        default:
+	        	alphaV = 0.0;
+	    }
+	    return alphaV * Pub * As / gamma_M2;
+	}
+
+	private double EN1993_1_8_TABLE_3_3_e1_min(int DiameterBolt)
+	{
+	    return BOLT_Do(DiameterBolt)*1.2;
+	}
+
+	private double EN1993_1_8_TABLE_3_3_e2_min(int DiameterBolt)
+	{
+	    return BOLT_Do(DiameterBolt)*1.2;
+	}
+
+	private double EN1993_1_8_TABLE_3_3_e3_min(int DiameterBolt)
+	{
+	    return BOLT_Do(DiameterBolt)*1.5;
+	}
+
+	private double EN1993_1_8_TABLE_3_3_e4_min(int DiameterBolt)
+	{
+	    return BOLT_Do(DiameterBolt)*1.5;
+	}
+
+	private double EN1993_1_8_TABLE_3_3_p1_min(int DiameterBolt)
+	{
+	    return BOLT_Do(DiameterBolt)*2.2;
+	}
+
+	private double EN1993_1_8_TABLE_3_3_p2_min(int DiameterBolt)
+	{
+	    return BOLT_Do(DiameterBolt)*2.4;
+	}
+
+
+	private int DiameterBolt;
+	private int DiameterHole;
+	private BOLT_CLASS BS;
+	private double gamma_M2;
+
+	private double A;
+	private double As;
+	private double F_v_Rd;
+	private double F_t_Rd;
+	//private double B_p_Rd;
+
+	Bolt(int _Dia, BOLT_CLASS _BS)
+	{
+		DiameterBolt   	= _Dia;
+		DiameterHole 	= BOLT_Do(DiameterBolt);//diameter+0.003;
+
+		BS = _BS;
+
+		gamma_M2 = 1.25;
+
+		//B_p_Rd = 1e30;
+		A  = BOLT_AREA_A (DiameterBolt);
+		As = BOLT_AREA_As(DiameterBolt);
+
+		F_t_Rd = EN1993_1_8_TABLE_3_4_FtRd(EN1993_1_8_TABLE_3_1_Fub(BS), As, gamma_M2);
+		F_v_Rd = EN1993_1_8_TABLE_3_4_FvRd(EN1993_1_8_TABLE_3_1_Fub(BS), As, gamma_M2,BS);
+	}
+
+	String Output()
+	{
+		String out = new String();
+		out = "";
+	    out += "Bolt: " + PrintfDia(DiameterBolt) + "\n";
+	    out += "Class of bolt: " + PrintfBS(BS) + "\n";
+	    out += "Diameter of hole: " + DiameterHole + " mm\n";
+	    out += "Partial safety factor for joint:\n";
+	    out += String.format("gammaM2 = %.2f\n",gamma_M2);
+	    out += "\n";
+	    out += "The gross cross-section area of bolt:\n";
+	    out += String.format("A  = %.1f sq.mm\n",A );
+	    out += "The tensile stress area of the bolt:\n";
+	    out += String.format("As = %.1f sq.mm\n",As);
+	    out += "\n";
+	    out += "Nominal value of the yield strenght(table 3.1 EN1993-1-8):\n";
+	    out += String.format("Fyb  = %.1f MPA\n",EN1993_1_8_TABLE_3_1_Fyb(BS) );
+	    out += "Nominal value of the ultimate tensile strenght(table 3.1 EN1993-1-8):\n";
+	    out += String.format("Fub  = %.1f MPA\n",EN1993_1_8_TABLE_3_1_Fub(BS) );
+	    out += "\n";
+	    out += "Shear resistance per shear plane(table 3.4 EN1993-1-8):\n";
+	    out += String.format("Fv,Rd = %.1fkN\n",F_v_Rd*1e-3);
+	    out += "Tension resistance(table 3.4 EN1993-1-8):\n";
+	    out += String.format("Ft,Rd = %.1fkN\n",F_t_Rd*1e-3);
+	    out += "\n";
+	    out += "Minimal spacing, end and edge distances(table 3.3 EN1993-1-8):\n";
+	    out += String.format("End  distance e1  = %.1f mm\n",EN1993_1_8_TABLE_3_3_e1_min(DiameterBolt) );
+	    out += String.format("Edge distance e2  = %.1f mm\n",EN1993_1_8_TABLE_3_3_e2_min(DiameterBolt) );
+	    out += String.format("Distance e3 in slotted holes = %.1f mm\n",EN1993_1_8_TABLE_3_3_e3_min(DiameterBolt) );
+	    out += String.format("Distance e4 in slotted holes = %.1f mm\n",EN1993_1_8_TABLE_3_3_e4_min(DiameterBolt) );
+	    out += String.format("Spacing p1 = %.1f mm\n",EN1993_1_8_TABLE_3_3_p1_min(DiameterBolt) );
+	    out += String.format("Spacing p2 = %.1f mm\n",EN1993_1_8_TABLE_3_3_p2_min(DiameterBolt) );
+
+	    // *
+	    if(B_p_Rd < 1e20)
+	    	out += "B_p_Rd = %.1f kN\n",B_p_Rd*1e-3);* //
+	    return out;
+	};
+};
+*/
