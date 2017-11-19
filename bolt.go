@@ -264,11 +264,6 @@ func (aa AreaA) String() string {
 }
 
 /*
-	private double BOLT_AREA_A(int Dia)
-	{
-	    return (new General()).CONST_M_PI/4.* pow(Dia,2.);
-	}
-
 	private double EN1993_1_8_TABLE_3_4_FtRd(double Pub, double As, double gamma_M2)
 	{
 	    double k2 = 0.9;
@@ -321,35 +316,6 @@ func (aa AreaA) String() string {
 	private double EN1993_1_8_TABLE_3_3_p2_min(int DiameterBolt)
 	{
 	    return BOLT_Do(DiameterBolt)*2.4;
-	}
-
-
-	private int DiameterBolt;
-	private int DiameterHole;
-	private BOLT_CLASS BS;
-	private double gamma_M2;
-
-	private double A;
-	private double As;
-	private double F_v_Rd;
-	private double F_t_Rd;
-	//private double B_p_Rd;
-
-	Bolt(int _Dia, BOLT_CLASS _BS)
-	{
-		DiameterBolt   	= _Dia;
-		DiameterHole 	= BOLT_Do(DiameterBolt);//diameter+0.003;
-
-		BS = _BS;
-
-		gamma_M2 = 1.25;
-
-		//B_p_Rd = 1e30;
-		A  = BOLT_AREA_A (DiameterBolt);
-		As = BOLT_AREA_As(DiameterBolt);
-
-		F_t_Rd = EN1993_1_8_TABLE_3_4_FtRd(EN1993_1_8_TABLE_3_1_Fub(BS), As, gamma_M2);
-		F_v_Rd = EN1993_1_8_TABLE_3_4_FvRd(EN1993_1_8_TABLE_3_1_Fub(BS), As, gamma_M2,BS);
 	}
 
 	String Output()
