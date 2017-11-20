@@ -1,5 +1,14 @@
 package bolt
 
+import "fmt"
+
+// Force - type of force
+type Force float64
+
+func (f Force) String() string {
+	return fmt.Srintf("%.1f kN", float64(f)*1e-3)
+}
+
 /*
 	private double EN1993_1_8_TABLE_3_4_FtRd(double Pub, double As, double gamma_M2)
 	{
