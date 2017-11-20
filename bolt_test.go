@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
+	"github.com/bradleyjkemp/cupaloy"
 )
 
 func TestBoltClass(t *testing.T) {
@@ -80,4 +81,35 @@ func ExampleBolt() {
 	// Fub  : 800.0 MPa
 	// Tension stress area of the bolt HM24 is 352.8 mm²
 	// The gross coss-section area of the bolt HM24 is 452.4 mm²
+}
+
+func boltProperty(b bolt.Bolt) (s string) {
+	s += fmt.Sprintf("Bolt : %s%s\n", b.D(), b.Cl())
+	s += fmt.Sprintf("%s\n", b.Do())
+	s += fmt.Sprintf("Hole : %s\n", b.Do().Value())
+	s += fmt.Sprintf("%s\n", b.Fyb())
+	s += fmt.Sprintf("Fyb  : %s\n", b.Fyb().Value())
+	s += fmt.Sprintf("%s\n", b.Fub())
+	s += fmt.Sprintf("Fub  : %s\n", b.Fub().Value())
+	s += fmt.Sprintf("%s\n", b.As())
+	s += fmt.Sprintf("%s\n", b.A())
+	return
+}
+
+func TestCases(t *testing.T) {
+	snapshotter := cupaloy.New(cupaloy.SnapshotSubdirectory("testdata"))
+	for _, bd := range bolt.GetBoltDiameterList() {
+		for _, bc := range bolt.GetBoltClassList() {
+			b := bolt.New(bc, bd)
+
+			testName := fmt.Sprintf("%s%s", bd, bc)
+			t.Run(testName, func(t *testing.T) {
+				result := boltProperty(b)
+				err := snapshotter.SnapshotMulti(testName, result)
+				if err != nil {
+					t.Fatalf("error: %s", err)
+				}
+			})
+		}
+	}
 }
