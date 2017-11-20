@@ -16,6 +16,13 @@ func TestBoltClass(t *testing.T) {
 		if bc.String() == "" {
 			t.Fatalf("Cannot convert to string: %v", bc)
 		}
+		if pos > 0 {
+			present := bolt.Fub{BoltClass: bc}
+			last := bolt.Fub{BoltClass: bolt.GetBoltClassList()[pos-1]}
+			if float64(present.Value()) < float64(last.Value()) {
+				t.Fatalf("Next class of bolt is not strong")
+			}
+		}
 	}
 }
 
@@ -26,6 +33,13 @@ func TestBoltDiameter(t *testing.T) {
 		}
 		if db.String() == "" {
 			t.Fatalf("Cannot convert to string: %v", db)
+		}
+		if pos > 0 {
+			last := float64(bolt.GetBoltDiameterList()[pos-1])
+			present := float64(db)
+			if last > present {
+				t.Fatalf("Next diameter is not more")
+			}
 		}
 	}
 }
