@@ -55,6 +55,11 @@ func (b Bolt) A() AreaA {
 	return AreaA{Dia: b.bd}
 }
 
+// FvRd - shear resistance
+func (b Bolt) FvRd() ShearResistance {
+	return ShearResistance{bolt: b}
+}
+
 // Class is class of bolt
 type Class string
 
