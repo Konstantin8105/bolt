@@ -80,7 +80,7 @@ func ExampleBolt() {
 	// In according to table 3.1 EN1993-1-8 value Fub is 800.0 MPa
 	// Fub  : 800.0 MPa
 	// Tension stress area of the bolt HM24 is 352.8 mm²
-	// The gross coss-section area of the bolt HM24 is 452.4 mm²
+	// The gross cross-section area of the bolt HM24 is 452.4 mm²
 }
 
 func boltProperty(b bolt.Bolt) (s string) {

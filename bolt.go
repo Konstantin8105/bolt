@@ -255,14 +255,14 @@ type AreaA struct {
 	Dia Diameter
 }
 
-// Value - return value of area A (the gross coss-section area of bolt)
+// Value - return value of area A (the gross cross-section area of bolt)
 func (aa AreaA) Value() Area {
 	dia := float64(aa.Dia)
 	return Area(math.Pi / 4. * math.Pow(dia, 2.0))
 }
 
 func (aa AreaA) String() string {
-	return fmt.Sprintf("The gross coss-section area of the bolt %s is %s", aa.Dia, aa.Value())
+	return fmt.Sprintf("The gross cross-section area of the bolt %s is %s", aa.Dia, aa.Value())
 }
 
 /*
