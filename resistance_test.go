@@ -19,6 +19,7 @@ func ExampleShearResistance() {
 	// 	αν  = 0.500 - Shear plane passes through the threaded portion of the bolt
 	// 	Fub = 500.0 MPa
 	// 	As  = 352.8 mm²
+	//	In according to table 3.4 EN1993-1-8:
 	// 	Shear resistance is 70.6 kN
 }
 
@@ -33,6 +34,7 @@ func boltResistance(b bolt.Bolt) (s string) {
 	}
 	return
 }
+
 func TestResistanceCases(t *testing.T) {
 	snapshotter := cupaloy.New(cupaloy.SnapshotSubdirectory("testdata"))
 	for _, bd := range bolt.GetBoltDiameterList() {

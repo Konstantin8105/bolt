@@ -75,6 +75,7 @@ func (sr ShearResistance) String() (s string) {
 	s += fmt.Sprintf("\tαν  = %s - %s\n", sr.αν(), sr.Position)
 	s += fmt.Sprintf("\tFub = %s\n", sr.B.Fub().Value())
 	s += fmt.Sprintf("\tAs  = %s\n", sr.B.As().Value())
+	s += fmt.Sprintf("\tIn according to table 3.4 EN1993-1-8:\n")
 	s += fmt.Sprintf("\tShear resistance is %s", sr.Value())
 	return
 }
