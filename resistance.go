@@ -80,10 +80,48 @@ func (sr ShearResistance) String() (s string) {
 	return
 }
 
-/*
-	private double EN1993_1_8_TABLE_3_4_FtRd(double Pub, double As, double gamma_M2)
-	{
-	    double k2 = 0.9;
-	    return k2 * Pub * As / gamma_M2;
+// Type - configuration of bolt
+type Type bool
+
+// Constants
+const (
+	UsuallyBolt     Type = false
+	CountersunkBolt      = true
+)
+
+func (bt Type) String() string {
+	if bt == CountersunkBolt {
+		return "countersunk bolt"
 	}
-*/
+	return "no-countersunk bolt"
+}
+
+// TensionResistance - force of resistance on tension
+type TensionResistance struct {
+	B  Bolt
+	BT Type
+}
+
+// K2 - Factor
+func (t TensionResistance) K2() Factor {
+	if t.BT == CountersunkBolt {
+		return Factor(0.63)
+	}
+	return 0.9
+}
+
+// Value - return Force of tension resistance
+func (t TensionResistance) Value() Force {
+	return Force(float64(t.K2()) * float64(t.B.Fub().Value()) * float64(t.B.As().Value()) / float64(FactorγM2))
+}
+
+func (t TensionResistance) String() (s string) {
+	s += fmt.Sprintf("Calculation of tension resistance for %s%s:\n", t.B.bd, t.B.bc)
+	s += fmt.Sprintf("\tγM2 = %s\n", FactorγM2)
+	s += fmt.Sprintf("\tk2  = %s - %s\n", t.K2(), t.BT)
+	s += fmt.Sprintf("\tFub = %s\n", t.B.Fub().Value())
+	s += fmt.Sprintf("\tAs  = %s\n", t.B.As().Value())
+	s += fmt.Sprintf("\tIn according to table 3.4 EN1993-1-8:\n")
+	s += fmt.Sprintf("\tTension resistance is %s", t.Value())
+	return
+}
