@@ -84,7 +84,6 @@ func ExampleBolt() {
 	fmt.Printf("Fub  : %s\n", b.Fub().Value())
 	fmt.Printf("%s\n", b.As())
 	fmt.Printf("%s\n", b.A())
-	fmt.Printf("%s\n", b.FvRd())
 
 	// Output:
 	// Bolt : HM24Cl8.8
@@ -96,7 +95,6 @@ func ExampleBolt() {
 	// Fub  : 800.0 MPa
 	// Tension stress area of the bolt HM24 is 352.8 mm²
 	// The gross cross-section area of the bolt HM24 is 452.4 mm²
-	// Shear resistance is 135.5 kN
 }
 
 func boltProperty(b bolt.Bolt) (s string) {
