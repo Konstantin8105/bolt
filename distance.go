@@ -5,13 +5,15 @@ import (
 	"math"
 )
 
-// Distance - distances in according to table 3.3 EN1993-1-8
+// Distance - distances in according to table 3.3 EN1993-1-8.
+// Unit - meter
 type Distance struct {
 	b   Bolt
 	thk Dimension
 }
 
 // GetDistances - create a struct with all dimensions
+// Unit - meter
 func GetDistances(b Bolt, thk Dimension) Distance {
 	return Distance{b: b, thk: thk}
 }
@@ -23,7 +25,7 @@ func (d Distance) E1min() Dimension {
 
 // E1max - dimension e1max in according to table 3.3 EN1993-1-8
 func (d Distance) E1max() Dimension {
-	return Dimension(4.0*float64(d.thk) + 40.0)
+	return Dimension(4.0*float64(d.thk) + 40.0e-3)
 }
 
 // E2min - dimension e2min in according to table 3.3 EN1993-1-8
@@ -33,7 +35,7 @@ func (d Distance) E2min() Dimension {
 
 // E2max - dimension e2max in according to table 3.3 EN1993-1-8
 func (d Distance) E2max() Dimension {
-	return Dimension(4.0*float64(d.thk) + 40.0)
+	return Dimension(4.0*float64(d.thk) + 40.0e-3)
 }
 
 // E3min - dimension e3min in according to table 3.3 EN1993-1-8
@@ -53,17 +55,17 @@ func (d Distance) P1min() Dimension {
 
 // P1max - dimension p1max in according to table 3.3 EN1993-1-8
 func (d Distance) P1max() Dimension {
-	return Dimension(math.Min(14.0*float64(d.thk), 200.0))
+	return Dimension(math.Min(14.0*float64(d.thk), 200.0e-3))
 }
 
 // P10max - dimension p10max in according to table 3.3 EN1993-1-8
 func (d Distance) P10max() Dimension {
-	return Dimension(math.Min(14.0*float64(d.thk), 200.0))
+	return Dimension(math.Min(14.0*float64(d.thk), 200.0e-3))
 }
 
 // P1imax - dimension p1imax in according to table 3.3 EN1993-1-8
 func (d Distance) P1imax() Dimension {
-	return Dimension(math.Min(28.0*float64(d.thk), 400.0))
+	return Dimension(math.Min(28.0*float64(d.thk), 400.0e-3))
 }
 
 // P2min - dimension p2min in according to table 3.3 EN1993-1-8
@@ -73,10 +75,11 @@ func (d Distance) P2min() Dimension {
 
 // P2max - dimension p2max in according to table 3.3 EN1993-1-8
 func (d Distance) P2max() Dimension {
-	return Dimension(math.Min(14.0*float64(d.thk), 200.0))
+	return Dimension(math.Min(14.0*float64(d.thk), 200.0e-3))
 }
 
 // ShowAllDimensions - print all dimensions in according to table 3.3 EN1993-1-8
+// Unit - meter
 func ShowAllDimensions(b Bolt, thk Dimension) (s string) {
 	d := GetDistances(b, thk)
 	s += fmt.Sprintf("E1min  = %s\n", d.E1min())

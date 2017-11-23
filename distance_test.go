@@ -12,16 +12,16 @@ func ExampleDistance() {
 
 	// Output:
 	// E1min  = 31.2 mm
-	// E1max  = 40160.0 mm
+	// E1max  = 200.0 mm
 	// E2min  = 31.2 mm
-	// E2max  = 40160.0 mm
+	// E2max  = 200.0 mm
 	// E3min  = 39.0 mm
 	// E4min  = 39.0 mm
 	// P1min  = 57.2 mm
-	// P1max  = 560.0 mm
-	// P1max  = 560.0 mm
-	// P10max = 560.0 mm
-	// P1imax = 1120.0 mm
+	// P1max  = 200.0 mm
+	// P1max  = 200.0 mm
+	// P10max = 200.0 mm
+	// P1imax = 400.0 mm
 	// P2min  = 62.4 mm
-	// P2max  = 560.0 mm
+	// P2max  = 200.0 mm
 }
