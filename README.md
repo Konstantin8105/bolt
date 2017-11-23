@@ -1,4 +1,4 @@
-# Calculation bolt property in according to Eurocode 3(EN1993-1-8).
+# Calculation bolt property in according to EN1993-1-8.
 
 
 [![Coverage Status](https://coveralls.io/repos/github/Konstantin8105/Eurocode3.Bolt/badge.svg?branch=master)](https://coveralls.io/github/Konstantin8105/Eurocode3.Bolt?branch=master)
