@@ -136,13 +136,39 @@ type Resistance struct {
 	Position PositionShear
 }
 
+// ViewResult - type of result view
+type ViewResult int
+
+// ViewResult constants
+const (
+	NoView ViewResult = iota
+	FullView
+)
+
 // Value - return result of combined resistance calculation
-func (r Resistance) Value(FvEd, FtEd Force) Factor {
+func (r Resistance) Value(FvEd, FtEd Force, view ViewResult) (_ Factor, s string) {
 	max := 0.0
+
 	FvRd := ShearResistance{B: r.B, Position: r.Position}
-	max = math.Max(max, float64(FvEd)/float64(FvRd.Value()))
+	f1 := float64(FvEd) / float64(FvRd.Value())
+	if view == FullView {
+		s += fmt.Sprintf("%s\n", FvRd)
+		s += fmt.Sprintf("Factor %s\n", Factor(f1))
+	}
+	max = math.Max(max, f1)
+
 	FtRd := TensionResistance{B: r.B, BT: r.BT}
-	max = math.Max(max, float64(FtEd)/float64(FtRd.Value()))
+	f2 := float64(FtEd) / float64(FtRd.Value())
+	if view == FullView {
+		s += fmt.Sprintf("%s\n", FtRd)
+		s += fmt.Sprintf("Factor %s\n", Factor(f2))
+	}
+	max = math.Max(max, f2)
+
 	max = math.Max(max, float64(FvEd)/float64(FvRd.Value())+float64(FtEd)/(1.4*float64(FtRd.Value())))
-	return Factor(max)
+	if view == FullView {
+		s += fmt.Sprintf("Summary factor of combined loads is %s\n", Factor(max))
+	}
+
+	return Factor(max), s
 }
