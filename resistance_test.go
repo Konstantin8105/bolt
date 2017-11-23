@@ -97,3 +97,15 @@ func TestTensionResistanceCases(t *testing.T) {
 		}
 	}
 }
+
+func TestResistance(t *testing.T) {
+	eps := 1e-8
+	b := bolt.New(bolt.D24, bolt.G5p8)
+	sr := bolt.Resistance{B: b}
+	if float64(sr.Value(0.0, 0.0)) > eps {
+		t.Errorf("Factor can not be not zero if load is zero")
+	}
+	if float64(sr.Value(1e10, 1e10)) < 1.0 {
+		t.Errorf("Factor can not be less 1.0 if load is huge")
+	}
+}
