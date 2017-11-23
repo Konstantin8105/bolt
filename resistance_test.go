@@ -9,7 +9,7 @@ import (
 )
 
 func ExampleShearResistance() {
-	b := bolt.New(bolt.G5p8, bolt.D24)
+	b := bolt.New(bolt.D24, bolt.G5p8)
 	sr := bolt.ShearResistance{B: b, Position: bolt.ThreadShear}
 	fmt.Printf("%s\n", sr)
 
@@ -24,7 +24,7 @@ func ExampleShearResistance() {
 }
 
 func ExampleTensionResistance() {
-	b := bolt.New(bolt.G5p8, bolt.D24)
+	b := bolt.New(bolt.D24, bolt.G5p8)
 	t := bolt.TensionResistance{B: b, BT: bolt.UsuallyBolt}
 	fmt.Printf("%s\n", t)
 
@@ -54,7 +54,7 @@ func TestShearResistanceCases(t *testing.T) {
 	snapshotter := cupaloy.New(cupaloy.SnapshotSubdirectory("testdata"))
 	for _, bd := range bolt.GetBoltDiameterList() {
 		for _, bc := range bolt.GetBoltClassList() {
-			b := bolt.New(bc, bd)
+			b := bolt.New(bd, bc)
 
 			testName := fmt.Sprintf("ShearResistance%s%s", bd, bc)
 			t.Run(testName, func(t *testing.T) {
@@ -84,7 +84,7 @@ func TestTensionResistanceCases(t *testing.T) {
 	snapshotter := cupaloy.New(cupaloy.SnapshotSubdirectory("testdata"))
 	for _, bd := range bolt.GetBoltDiameterList() {
 		for _, bc := range bolt.GetBoltClassList() {
-			b := bolt.New(bc, bd)
+			b := bolt.New(bd, bc)
 
 			testName := fmt.Sprintf("TensionResistance%s%s", bd, bc)
 			t.Run(testName, func(t *testing.T) {
