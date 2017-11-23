@@ -102,10 +102,11 @@ func TestResistance(t *testing.T) {
 	eps := 1e-8
 	b := bolt.New(bolt.D24, bolt.G5p8)
 	sr := bolt.Resistance{B: b}
-	if float64(sr.Value(0.0, 0.0)) > eps {
+
+	if f, _ := sr.Value(0.0, 0.0, bolt.NoView); float64(f) > eps {
 		t.Errorf("Factor can not be not zero if load is zero")
 	}
-	if float64(sr.Value(1e10, 1e10)) < 1.0 {
+	if f, _ := sr.Value(1e10, 1e10, bolt.FullView); float64(f) < 1.0 {
 		t.Errorf("Factor can not be less 1.0 if load is huge")
 	}
 }
