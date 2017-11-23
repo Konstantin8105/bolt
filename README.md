@@ -7,33 +7,22 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Konstantin8105/Eurocode3.Bolt/blob/master/LICENSE)
 [![GoDoc](https://godoc.org/github.com/Konstantin8105/Eurocode3.Bolt?status.svg)](https://godoc.org/github.com/Konstantin8105/Eurocode3.Bolt)
 
-How to do that with good view and good result.
+Calculation bolt property in according to Eurocode 3.
 
-Generally we have formules, like:
-```
-c := a * b
-```
-We want to convert to another view:
-```
-Calculation of `c` by formula `a*b` in according to formula ....
-Calculation: 
-	a := 12 item
-	b := 4 pieces
-	c := a * b = 12 * 4 = 48 pieces
-```
-Convertion must be automatically.
+Example of shear resistance calculation for bolt HM24Cl5.8:
+```go
+func ExampleShearResistance() {
+	b := bolt.New(bolt.G5p8, bolt.D24)
+	sr := bolt.ShearResistance{B: b, Position: bolt.ThreadShear}
+	fmt.Printf("%s\n", sr)
 
-Let's continue:
+	// Output:
+	// Calculation of shear resistance for HM24Cl5.8:
+	// 	γM2 = 1.250
+	// 	αν  = 0.500 - Shear plane passes through the threaded portion of the bolt
+	// 	Fub = 500.0 MPa
+	// 	As  = 352.8 mm²
+	//	In according to table 3.4 EN1993-1-8:
+	// 	Shear resistance is 70.6 kN
+}
 ```
-d := c * a
-```
-Convertion:
-```
-Caluclation `d` by formula `c * a` in according to formula ....
-Calculation:
-	a := 12 item
-	c := 48 pieces
-	d := c * a = 12 * 48 = 576 pieces
-```
-In that case, we see value `c` not in detail.
-
