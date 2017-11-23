@@ -1,6 +1,9 @@
 package bolt
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // Force - type of force
 type Force float64
@@ -124,4 +127,22 @@ func (t TensionResistance) String() (s string) {
 	s += fmt.Sprintf("\tIn according to table 3.4 EN1993-1-8:\n")
 	s += fmt.Sprintf("\tTension resistance is %s", t.Value())
 	return
+}
+
+// Resistance - combined resistance shear and tension
+type Resistance struct {
+	B        Bolt
+	BT       Type
+	Position PositionShear
+}
+
+// Value - return result of combined resistance calculation
+func (r Resistance) Value(FvEd, FtEd Force) Factor {
+	max := 0.0
+	FvRd := ShearResistance{B: r.B, Position: r.Position}
+	max = math.Max(max, float64(FvEd)/float64(FvRd.Value()))
+	FtRd := TensionResistance{B: r.B, BT: r.BT}
+	max = math.Max(max, float64(FtEd)/float64(FtRd.Value()))
+	max = math.Max(max, float64(FvEd)/float64(FvRd.Value())+float64(FtEd)/(1.4*float64(FtRd.Value())))
+	return Factor(max)
 }
