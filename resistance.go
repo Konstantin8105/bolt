@@ -90,7 +90,7 @@ const (
 )
 
 func (bt Type) String() string {
-	if bt == CountersunkBolt {
+	if bt { // == CountersunkBolt
 		return "countersunk bolt"
 	}
 	return "no-countersunk bolt"
@@ -104,7 +104,7 @@ type TensionResistance struct {
 
 // K2 - Factor
 func (t TensionResistance) K2() Factor {
-	if t.BT == CountersunkBolt {
+	if t.BT { // == CountersunkBolt
 		return Factor(0.63)
 	}
 	return 0.9

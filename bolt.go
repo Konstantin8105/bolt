@@ -12,7 +12,7 @@ type Bolt struct {
 }
 
 // New - create a new bolt
-func New(bc Class, bd Diameter) Bolt {
+func New(bd Diameter, bc Class) Bolt {
 	return Bolt{bc: bc, bd: bd}
 }
 
@@ -241,7 +241,8 @@ type AreaAs struct {
 
 // Value - return value of area As (tension stress area of the bolt)
 func (as AreaAs) Value() Area {
-	p := float64((Pinch{Dia: as.Dia}).Value())
+	var pd = Pinch(as) // Use a type conversion
+	p := float64(pd.Value())
 	dia := float64(as.Dia)
 	return Area(math.Pi / 4. * math.Pow(dia-0.935229*p, 2.0))
 }

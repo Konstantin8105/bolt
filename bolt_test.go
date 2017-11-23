@@ -59,7 +59,7 @@ func TestFyb(t *testing.T) {
 func TestBolt(t *testing.T) {
 	for _, bd := range bolt.GetBoltDiameterList() {
 		for _, bc := range bolt.GetBoltClassList() {
-			b := bolt.New(bc, bd)
+			b := bolt.New(bd, bc)
 			if float64(b.Fyb().Value()) <= 0.0 {
 				t.Fatal("Cannot be Fyb <= 0.0")
 			}
@@ -74,7 +74,7 @@ func TestBolt(t *testing.T) {
 }
 
 func ExampleBolt() {
-	b := bolt.New(bolt.G8p8, bolt.D24)
+	b := bolt.New(bolt.D24, bolt.G8p8)
 	fmt.Printf("Bolt : %s%s\n", b.D(), b.Cl())
 	fmt.Printf("%s\n", b.Do())
 	fmt.Printf("Hole : %s\n", b.Do().Value())
@@ -114,7 +114,7 @@ func TestCases(t *testing.T) {
 	snapshotter := cupaloy.New(cupaloy.SnapshotSubdirectory("testdata"))
 	for _, bd := range bolt.GetBoltDiameterList() {
 		for _, bc := range bolt.GetBoltClassList() {
-			b := bolt.New(bc, bd)
+			b := bolt.New(bd, bc)
 
 			testName := fmt.Sprintf("%s%s", bd, bc)
 			t.Run(testName, func(t *testing.T) {
