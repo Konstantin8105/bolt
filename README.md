@@ -1,4 +1,4 @@
-# Calculation of bolt
+# Calculation bolt property in according to Eurocode 3(EN1993-1-8).
 
 
 [![Coverage Status](https://coveralls.io/repos/github/Konstantin8105/Eurocode3.Bolt/badge.svg?branch=master)](https://coveralls.io/github/Konstantin8105/Eurocode3.Bolt?branch=master)
@@ -7,12 +7,39 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Konstantin8105/Eurocode3.Bolt/blob/master/LICENSE)
 [![GoDoc](https://godoc.org/github.com/Konstantin8105/Eurocode3.Bolt?status.svg)](https://godoc.org/github.com/Konstantin8105/Eurocode3.Bolt)
 
-Calculation bolt property in according to Eurocode 3.
+
+Example of bolt property calculation:
+```go
+func ExampleBolt() {
+	b := bolt.New(bolt.D24, bolt.G8p8)
+	fmt.Printf("Bolt : %s%s\n", b.D(), b.Cl())
+	fmt.Printf("%s\n", b.Do())
+	fmt.Printf("Hole : %s\n", b.Do().Value())
+	fmt.Printf("%s\n", b.Fyb())
+	fmt.Printf("Fyb  : %s\n", b.Fyb().Value())
+	fmt.Printf("%s\n", b.Fub())
+	fmt.Printf("Fub  : %s\n", b.Fub().Value())
+	fmt.Printf("%s\n", b.As())
+	fmt.Printf("%s\n", b.A())
+
+	// Output:
+	// Bolt : HM24Cl8.8
+	// For bolt HM24 hole is Ø26.0 mm
+	// Hole : Ø26.0 mm
+	// In according to table 3.1 EN1993-1-8 value Fyb is 640.0 MPa
+	// Fyb  : 640.0 MPa
+	// In according to table 3.1 EN1993-1-8 value Fub is 800.0 MPa
+	// Fub  : 800.0 MPa
+	// Tension stress area of the bolt HM24 is 352.8 mm²
+	// The gross cross-section area of the bolt HM24 is 452.4 mm²
+}
+```
+
 
 Example of shear resistance calculation for bolt HM24Cl5.8:
 ```go
 func ExampleShearResistance() {
-	b := bolt.New(bolt.G5p8, bolt.D24)
+	b := bolt.New(bolt.D24, bolt.G5p8)
 	sr := bolt.ShearResistance{B: b, Position: bolt.ThreadShear}
 	fmt.Printf("%s\n", sr)
 
