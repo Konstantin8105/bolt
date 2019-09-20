@@ -2,7 +2,9 @@ package bolt_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
+	"text/tabwriter"
 
 	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
 	"github.com/bradleyjkemp/cupaloy"
@@ -36,6 +38,91 @@ func ExampleTensionResistance() {
 	// 	As  = 352.8 mm²
 	// 	In according to table 3.4 EN1993-1-8:
 	// 	Tension resistance is 127.0 kN
+}
+
+func Example() {
+	var (
+		D  = bolt.GetBoltDiameterList()
+		Cl = bolt.GetBoltClassList()
+	)
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.TabIndent)
+	fmt.Fprintf(w, "| Diameter\t| Class\t| Tension, kN\t| Shear, kN\t|\n")
+	for _, d := range D {
+		for _, cl := range Cl {
+			b := bolt.New(d, cl)
+			nt := bolt.TensionResistance{B: b, BT: bolt.UsuallyBolt}
+			ns := bolt.ShearResistance{B: b, Position: bolt.ThreadShear}
+			fmt.Fprintf(w, "| %v\t| %v\t| %5.1f\t| %5.1f\t|\n", d, cl, nt.Value()/1000, ns.Value()/1000)
+		}
+		fmt.Fprintf(w, "|\t|\t|\t|\t|\n")
+	}
+	w.Flush()
+	// Output:
+	// | Diameter | Class  | Tension, kN | Shear, kN |
+	// | HM12     | Cl4.6  |  24.3       |  16.2     |
+	// | HM12     | Cl4.8  |  24.3       |  13.5     |
+	// | HM12     | Cl5.6  |  30.4       |  20.2     |
+	// | HM12     | Cl5.8  |  30.4       |  16.9     |
+	// | HM12     | Cl6.8  |  36.4       |  20.2     |
+	// | HM12     | Cl8.8  |  48.6       |  32.4     |
+	// | HM12     | Cl10.9 |  60.7       |  33.7     |
+	// |          |        |             |           |
+	// | HM16     | Cl4.6  |  45.2       |  30.1     |
+	// | HM16     | Cl4.8  |  45.2       |  25.1     |
+	// | HM16     | Cl5.6  |  56.4       |  37.6     |
+	// | HM16     | Cl5.8  |  56.4       |  31.4     |
+	// | HM16     | Cl6.8  |  67.7       |  37.6     |
+	// | HM16     | Cl8.8  |  90.3       |  60.2     |
+	// | HM16     | Cl10.9 | 112.9       |  62.7     |
+	// |          |        |             |           |
+	// | HM20     | Cl4.6  |  70.6       |  47.0     |
+	// | HM20     | Cl4.8  |  70.6       |  39.2     |
+	// | HM20     | Cl5.6  |  88.2       |  58.8     |
+	// | HM20     | Cl5.8  |  88.2       |  49.0     |
+	// | HM20     | Cl6.8  | 105.8       |  58.8     |
+	// | HM20     | Cl8.8  | 141.1       |  94.1     |
+	// | HM20     | Cl10.9 | 176.4       |  98.0     |
+	// |          |        |             |           |
+	// | HM24     | Cl4.6  | 101.6       |  67.7     |
+	// | HM24     | Cl4.8  | 101.6       |  56.4     |
+	// | HM24     | Cl5.6  | 127.0       |  84.7     |
+	// | HM24     | Cl5.8  | 127.0       |  70.6     |
+	// | HM24     | Cl6.8  | 152.4       |  84.7     |
+	// | HM24     | Cl8.8  | 203.2       | 135.5     |
+	// | HM24     | Cl10.9 | 254.0       | 141.1     |
+	// |          |        |             |           |
+	// | HM30     | Cl4.6  | 161.6       | 107.7     |
+	// | HM30     | Cl4.8  | 161.6       |  89.8     |
+	// | HM30     | Cl5.6  | 202.0       | 134.6     |
+	// | HM30     | Cl5.8  | 202.0       | 112.2     |
+	// | HM30     | Cl6.8  | 242.4       | 134.6     |
+	// | HM30     | Cl8.8  | 323.1       | 215.4     |
+	// | HM30     | Cl10.9 | 403.9       | 224.4     |
+	// |          |        |             |           |
+	// | HM36     | Cl4.6  | 235.4       | 156.9     |
+	// | HM36     | Cl4.8  | 235.4       | 130.8     |
+	// | HM36     | Cl5.6  | 294.2       | 196.2     |
+	// | HM36     | Cl5.8  | 294.2       | 163.5     |
+	// | HM36     | Cl6.8  | 353.1       | 196.2     |
+	// | HM36     | Cl8.8  | 470.8       | 313.9     |
+	// | HM36     | Cl10.9 | 588.5       | 326.9     |
+	// |          |        |             |           |
+	// | HM42     | Cl4.6  | 323.1       | 215.4     |
+	// | HM42     | Cl4.8  | 323.1       | 179.5     |
+	// | HM42     | Cl5.6  | 403.8       | 269.2     |
+	// | HM42     | Cl5.8  | 403.8       | 224.3     |
+	// | HM42     | Cl6.8  | 484.6       | 269.2     |
+	// | HM42     | Cl8.8  | 646.1       | 430.7     |
+	// | HM42     | Cl10.9 | 807.6       | 448.7     |
+	// |          |        |             |           |
+	// | HM48     | Cl4.6  | 424.6       | 283.0     |
+	// | HM48     | Cl4.8  | 424.6       | 235.9     |
+	// | HM48     | Cl5.6  | 530.7       | 353.8     |
+	// | HM48     | Cl5.8  | 530.7       | 294.8     |
+	// | HM48     | Cl6.8  | 636.8       | 353.8     |
+	// | HM48     | Cl8.8  | 849.1       | 566.1     |
+	// | HM48     | Cl10.9 | 1061.4      | 589.7     |
+	// |          |        |             |           |
 }
 
 func boltShearResistance(b bolt.Bolt) (s string) {
