@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
-	"github.com/bradleyjkemp/cupaloy"
 )
 
 func TestBoltClass(t *testing.T) {
@@ -111,19 +110,14 @@ func boltProperty(b bolt.Bolt) (s string) {
 }
 
 func TestCases(t *testing.T) {
-	snapshotter := cupaloy.New(cupaloy.SnapshotSubdirectory("testdata"))
 	for _, bd := range bolt.GetBoltDiameterList() {
 		for _, bc := range bolt.GetBoltClassList() {
 			b := bolt.New(bd, bc)
 
-			testName := fmt.Sprintf("%s%s", bd, bc)
-			t.Run(testName, func(t *testing.T) {
-				result := boltProperty(b)
-				err := snapshotter.SnapshotMulti(testName, result)
-				if err != nil {
-					t.Fatalf("error: %s", err)
-				}
-			})
+			// create filename of test
+			filename := fmt.Sprintf("%s%s", bd, bc)
+			result := boltProperty(b)
+			testCase(t, filename, result)
 		}
 	}
 }

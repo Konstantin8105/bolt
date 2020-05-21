@@ -1,13 +1,15 @@
 package bolt_test
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 	"testing"
 	"text/tabwriter"
 
 	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
-	"github.com/bradleyjkemp/cupaloy"
 )
 
 func ExampleShearResistance() {
@@ -137,20 +139,40 @@ func boltShearResistance(b bolt.Bolt) (s string) {
 	return
 }
 
+func testCase(t *testing.T, filename, result string) {
+	t.Run(filename, func(t *testing.T) {
+		// name of test folder
+		const folder string = "testdata"
+		filename = filepath.Join(folder, filename)
+
+		// for update test screens run in console:
+		// UPDATE=true go test
+		if os.Getenv("UPDATE") == "true" {
+			if err := ioutil.WriteFile(filename, []byte(result), 0644); err != nil {
+				t.Fatalf("Cannot write snapshot to file: %v", err)
+			}
+		}
+
+		// compare datas
+		content, err := ioutil.ReadFile(filename)
+		if err != nil {
+			t.Fatalf("Cannot read snapshot file: %v", err)
+		}
+		if !bytes.Equal([]byte(result), content) {
+			t.Errorf("Snapshots is not same:\n%s\n%s", result, string(content))
+		}
+	})
+}
+
 func TestShearResistanceCases(t *testing.T) {
-	snapshotter := cupaloy.New(cupaloy.SnapshotSubdirectory("testdata"))
 	for _, bd := range bolt.GetBoltDiameterList() {
 		for _, bc := range bolt.GetBoltClassList() {
 			b := bolt.New(bd, bc)
 
-			testName := fmt.Sprintf("ShearResistance%s%s", bd, bc)
-			t.Run(testName, func(t *testing.T) {
-				result := boltShearResistance(b)
-				err := snapshotter.SnapshotMulti(testName, result)
-				if err != nil {
-					t.Fatalf("error: %s", err)
-				}
-			})
+			filename := fmt.Sprintf("ShearResistance%s%s", bd, bc)
+
+			result := boltShearResistance(b)
+			testCase(t, filename, result)
 		}
 	}
 }
@@ -168,19 +190,13 @@ func boltTensionResistance(b bolt.Bolt) (s string) {
 }
 
 func TestTensionResistanceCases(t *testing.T) {
-	snapshotter := cupaloy.New(cupaloy.SnapshotSubdirectory("testdata"))
 	for _, bd := range bolt.GetBoltDiameterList() {
 		for _, bc := range bolt.GetBoltClassList() {
 			b := bolt.New(bd, bc)
 
-			testName := fmt.Sprintf("TensionResistance%s%s", bd, bc)
-			t.Run(testName, func(t *testing.T) {
-				result := boltTensionResistance(b)
-				err := snapshotter.SnapshotMulti(testName, result)
-				if err != nil {
-					t.Fatalf("error: %s", err)
-				}
-			})
+			filename := fmt.Sprintf("TensionResistance%s%s", bd, bc)
+			result := boltTensionResistance(b)
+			testCase(t, filename, result)
 		}
 	}
 }
