@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
+	"github.com/Konstantin8105/description"
 )
 
 func TestBoltClass(t *testing.T) {
@@ -120,4 +121,16 @@ func TestCases(t *testing.T) {
 			testCase(t, filename, result)
 		}
 	}
+}
+
+func TestDescription(t *testing.T) {
+	descr, err := description.New(".")
+	if err != nil {
+		t.Fatal(err)
+	}
+	rep, err := descr.Report()
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("%s", rep)
 }
