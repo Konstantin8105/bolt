@@ -2,7 +2,6 @@
 
 
 [![Coverage Status](https://coveralls.io/repos/github/Konstantin8105/Eurocode3.Bolt/badge.svg?branch=master)](https://coveralls.io/github/Konstantin8105/Eurocode3.Bolt?branch=master)
-[![Build Status](https://travis-ci.org/Konstantin8105/Eurocode3.Bolt.svg?branch=master)](https://travis-ci.org/Konstantin8105/Eurocode3.Bolt)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Konstantin8105/Eurocode3.Bolt)](https://goreportcard.com/report/github.com/Konstantin8105/Eurocode3.Bolt)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Konstantin8105/Eurocode3.Bolt/blob/master/LICENSE)
 [![Go](https://github.com/Konstantin8105/Eurocode3.Bolt/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/Konstantin8105/Eurocode3.Bolt/actions/workflows/go.yml)
