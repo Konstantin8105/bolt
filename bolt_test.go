@@ -2,6 +2,7 @@ package bolt_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
@@ -124,7 +125,11 @@ func TestCases(t *testing.T) {
 }
 
 func TestDescription(t *testing.T) {
-	descr, err := description.New(".")
+	dir, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	descr, err := description.New(dir)
 	if err != nil {
 		t.Fatal(err)
 	}
