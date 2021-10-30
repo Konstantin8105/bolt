@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/Konstantin8105/Eurocode3.Bolt.svg?branch=master)](https://travis-ci.org/Konstantin8105/Eurocode3.Bolt)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Konstantin8105/Eurocode3.Bolt)](https://goreportcard.com/report/github.com/Konstantin8105/Eurocode3.Bolt)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Konstantin8105/Eurocode3.Bolt/blob/master/LICENSE)
+![Github build](https://github.com/Konstantin8105/Eurocode3.Bolt/actions/workflows/Build/badge.svg)
 [![Go Reference](https://pkg.go.dev/badge/github.com/Konstantin8105/Eurocode3.Bolt.svg)](https://pkg.go.dev/github.com/Konstantin8105/Eurocode3.Bolt)
 
 
