@@ -135,6 +135,7 @@ func TestDescription(t *testing.T) {
 	}
 	rep, err := descr.Report()
 	if err != nil {
+		t.Logf("%s", dir)
 		t.Fatal(err)
 	}
 	t.Logf("%s", rep)
