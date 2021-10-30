@@ -1,7 +1,5 @@
 # Calculation bolt property in according to EN1993-1-8.
 
-
-[![Coverage Status](https://coveralls.io/repos/github/Konstantin8105/Eurocode3.Bolt/badge.svg?branch=master)](https://coveralls.io/github/Konstantin8105/Eurocode3.Bolt?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Konstantin8105/Eurocode3.Bolt)](https://goreportcard.com/report/github.com/Konstantin8105/Eurocode3.Bolt)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Konstantin8105/Eurocode3.Bolt/blob/master/LICENSE)
 [![Go](https://github.com/Konstantin8105/Eurocode3.Bolt/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/Konstantin8105/Eurocode3.Bolt/actions/workflows/go.yml)
