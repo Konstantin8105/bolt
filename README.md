@@ -1,9 +1,9 @@
 # Calculation bolt property in according to EN1993-1-8.
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/Konstantin8105/Eurocode3.Bolt)](https://goreportcard.com/report/github.com/Konstantin8105/Eurocode3.Bolt)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Konstantin8105/Eurocode3.Bolt/blob/master/LICENSE)
-[![Go](https://github.com/Konstantin8105/Eurocode3.Bolt/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/Konstantin8105/Eurocode3.Bolt/actions/workflows/go.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/Konstantin8105/Eurocode3.Bolt.svg)](https://pkg.go.dev/github.com/Konstantin8105/Eurocode3.Bolt)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Konstantin8105/bolt)](https://goreportcard.com/report/github.com/Konstantin8105/bolt)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Konstantin8105/bolt/blob/master/LICENSE)
+[![Go](https://github.com/Konstantin8105/bolt/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/Konstantin8105/bolt/actions/workflows/go.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/Konstantin8105/bolt.svg)](https://pkg.go.dev/github.com/Konstantin8105/bolt)
 
 
 Example of bolt property calculation:

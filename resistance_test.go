@@ -9,7 +9,7 @@ import (
 	"testing"
 	"text/tabwriter"
 
-	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
+	"github.com/Konstantin8105/bolt"
 )
 
 func ExampleShearResistance() {

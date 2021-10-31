@@ -3,7 +3,7 @@ package bolt_test
 import (
 	"fmt"
 
-	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
+	"github.com/Konstantin8105/bolt"
 )
 
 func ExampleDistance() {

@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	bolt "github.com/Konstantin8105/Eurocode3.Bolt"
+	"github.com/Konstantin8105/bolt"
 	"github.com/Konstantin8105/description"
 )
 
