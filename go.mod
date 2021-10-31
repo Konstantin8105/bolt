@@ -1,4 +1,4 @@
-module github.com/Konstantin8105/Eurocode3.Bolt
+module github.com/Konstantin8105/bolt
 
 go 1.14
 
