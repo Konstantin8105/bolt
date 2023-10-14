@@ -1,3 +1,4 @@
+// Package bolt for calculate bolt property in according to EN1993-1-8
 package bolt
 
 import (
