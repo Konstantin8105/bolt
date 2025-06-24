@@ -12,6 +12,10 @@ type Bolt struct {
 	bc Class
 }
 
+func (b Bolt) String() string {
+	return fmt.Sprintf("%s%s", b.D(), b.Cl())
+}
+
 // New - create a new bolt
 func New(bd Diameter, bc Class) Bolt {
 	return Bolt{bc: bc, bd: bd}

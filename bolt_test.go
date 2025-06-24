@@ -76,7 +76,7 @@ func TestBolt(t *testing.T) {
 
 func ExampleBolt() {
 	b := bolt.New(bolt.D24, bolt.G8p8)
-	fmt.Printf("Bolt : %s%s\n", b.D(), b.Cl())
+	fmt.Printf("Bolt : %s\n", b)
 	fmt.Printf("%s\n", b.Do())
 	fmt.Printf("Hole : %s\n", b.Do().Value())
 	fmt.Printf("%s\n", b.Fyb())
