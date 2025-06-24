@@ -8,8 +8,8 @@ import (
 
 // Bolt - base property of bolt
 type Bolt struct {
-	bc Class
 	bd Diameter
+	bc Class
 }
 
 // New - create a new bolt
