@@ -47,4 +47,6 @@ var Description map[string]string = map[string]string{
 	"D30": "", "D36": "", "D42": "", "D48": "",
 
 	"d": "", "p": "", "pd": "", "s": "",
+
+	"class": "", "fubData": "", "fybData": "",
 }

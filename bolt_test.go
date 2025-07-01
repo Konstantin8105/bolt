@@ -76,15 +76,15 @@ func TestBolt(t *testing.T) {
 
 func ExampleBolt() {
 	b := bolt.New(bolt.D24, bolt.G8p8)
-	fmt.Printf("Bolt : %s\n", b)
-	fmt.Printf("%s\n", b.Do())
-	fmt.Printf("Hole : %s\n", b.Do().Value())
-	fmt.Printf("%s\n", b.Fyb())
-	fmt.Printf("Fyb  : %s\n", b.Fyb().Value())
-	fmt.Printf("%s\n", b.Fub())
-	fmt.Printf("Fub  : %s\n", b.Fub().Value())
-	fmt.Printf("%s\n", b.As())
-	fmt.Printf("%s\n", b.A())
+	fmt.Fprintf(os.Stdout, "Bolt : %s\n", b)
+	fmt.Fprintf(os.Stdout, "%s\n", b.Do())
+	fmt.Fprintf(os.Stdout, "Hole : %s\n", b.Do().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.Fyb())
+	fmt.Fprintf(os.Stdout, "Fyb  : %s\n", b.Fyb().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.Fub())
+	fmt.Fprintf(os.Stdout, "Fub  : %s\n", b.Fub().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.As())
+	fmt.Fprintf(os.Stdout, "%s\n", b.A())
 
 	// Output:
 	// Bolt : HM24Cl8.8
@@ -94,6 +94,36 @@ func ExampleBolt() {
 	// Fyb  : 640.0 MPa
 	// In according to table 3.1 EN1993-1-8 value Fub is 800.0 MPa
 	// Fub  : 800.0 MPa
+	// Tension stress area of the bolt HM24 is 352.8 mm²
+	// The gross cross-section area of the bolt HM24 is 452.4 mm²
+}
+
+func ExampleAddClass() {
+	class := bolt.Class("S245")
+	bolt.AddClass(
+		class,
+		230.0e6,
+		360.0e6,
+	)
+	b := bolt.New(bolt.D24, class)
+	fmt.Fprintf(os.Stdout, "Bolt : %s\n", b)
+	fmt.Fprintf(os.Stdout, "%s\n", b.Do())
+	fmt.Fprintf(os.Stdout, "Hole : %s\n", b.Do().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.Fyb())
+	fmt.Fprintf(os.Stdout, "Fyb  : %s\n", b.Fyb().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.Fub())
+	fmt.Fprintf(os.Stdout, "Fub  : %s\n", b.Fub().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.As())
+	fmt.Fprintf(os.Stdout, "%s\n", b.A())
+
+	// Output:
+	// Bolt : HM24ClS245
+	// For bolt HM24 hole is Ø26.0 mm
+	// Hole : Ø26.0 mm
+	// In according to table 3.1 EN1993-1-8 value Fyb is 230.0 MPa
+	// Fyb  : 230.0 MPa
+	// In according to table 3.1 EN1993-1-8 value Fub is 360.0 MPa
+	// Fub  : 360.0 MPa
 	// Tension stress area of the bolt HM24 is 352.8 mm²
 	// The gross cross-section area of the bolt HM24 is 452.4 mm²
 }

@@ -163,6 +163,12 @@ var fub = map[Class]Stress{
 	G10p9: 1000.e6,
 }
 
+// AddClass store new class data
+func AddClass(class Class, fybData, fubData Stress) {
+	fyb[class] = fybData
+	fub[class] = fubData
+}
+
 // Fyb - stress of bolt in according to table 3.1. EN1993-1-8.
 // unit: Pa
 type Fyb struct {
