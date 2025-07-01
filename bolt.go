@@ -164,9 +164,10 @@ var fub = map[Class]Stress{
 }
 
 // AddClass store new class data
-func AddClass(class Class, fybData, fubData Stress) {
+func AddClass(class Class, fybData, fubData Stress, αν Factor) {
 	fyb[class] = fybData
 	fub[class] = fubData
+	ανThreadShear[class] = αν
 }
 
 // Fyb - stress of bolt in according to table 3.1. EN1993-1-8.

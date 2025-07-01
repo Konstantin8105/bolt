@@ -15,7 +15,7 @@ import (
 func ExampleShearResistance() {
 	b := bolt.New(bolt.D24, bolt.G5p8)
 	sr := bolt.ShearResistance{B: b, Position: bolt.ThreadShear}
-	fmt.Printf("%s\n", sr)
+	fmt.Fprintf(os.Stdout, "%s\n", sr)
 
 	// Output:
 	// Calculation of shear resistance for HM24Cl5.8:
@@ -30,7 +30,7 @@ func ExampleShearResistance() {
 func ExampleTensionResistance() {
 	b := bolt.New(bolt.D24, bolt.G5p8)
 	t := bolt.TensionResistance{B: b, BT: bolt.UsuallyBolt}
-	fmt.Printf("%s\n", t)
+	fmt.Fprintf(os.Stdout, "%s\n", t)
 
 	// Output:
 	// Calculation of tension resistance for HM24Cl5.8:
@@ -40,6 +40,56 @@ func ExampleTensionResistance() {
 	// 	As  = 352.8 mm²
 	// 	In according to table 3.4 EN1993-1-8:
 	// 	Tension resistance is 127.0 kN
+}
+
+func ExampleAddClass() {
+	class := bolt.Class("S245")
+	bolt.AddClass(
+		class,
+		230.0e6,
+		360.0e6,
+		0.5,
+	)
+	b := bolt.New(bolt.D24, class)
+	fmt.Fprintf(os.Stdout, "Bolt : %s\n", b)
+	fmt.Fprintf(os.Stdout, "%s\n", b.Do())
+	fmt.Fprintf(os.Stdout, "Hole : %s\n", b.Do().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.Fyb())
+	fmt.Fprintf(os.Stdout, "Fyb  : %s\n", b.Fyb().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.Fub())
+	fmt.Fprintf(os.Stdout, "Fub  : %s\n", b.Fub().Value())
+	fmt.Fprintf(os.Stdout, "%s\n", b.As())
+	fmt.Fprintf(os.Stdout, "%s\n", b.A())
+	// resistance
+	sr := bolt.ShearResistance{B: b, Position: bolt.ThreadShear}
+	fmt.Fprintf(os.Stdout, "%s\n", sr)
+	t := bolt.TensionResistance{B: b, BT: bolt.UsuallyBolt}
+	fmt.Fprintf(os.Stdout, "%s\n", t)
+
+	// Output:
+	// Bolt : HM24ClS245
+	// For bolt HM24 hole is Ø26.0 mm
+	// Hole : Ø26.0 mm
+	// In according to table 3.1 EN1993-1-8 value Fyb is 230.0 MPa
+	// Fyb  : 230.0 MPa
+	// In according to table 3.1 EN1993-1-8 value Fub is 360.0 MPa
+	// Fub  : 360.0 MPa
+	// Tension stress area of the bolt HM24 is 352.8 mm²
+	// The gross cross-section area of the bolt HM24 is 452.4 mm²
+	// Calculation of shear resistance for HM24ClS245:
+	// 	γM2 = 1.250
+	// 	αν  = 0.500 - Shear plane passes through the threaded portion of the bolt
+	// 	Fub = 360.0 MPa
+	// 	As  = 352.8 mm²
+	// 	In according to table 3.4 EN1993-1-8:
+	// 	Shear resistance is 50.8 kN
+	// Calculation of tension resistance for HM24ClS245:
+	// 	γM2 = 1.250
+	// 	k2  = 0.900 - no-countersunk bolt
+	// 	Fub = 360.0 MPa
+	// 	As  = 352.8 mm²
+	// 	In according to table 3.4 EN1993-1-8:
+	// 	Tension resistance is 91.4 kN
 }
 
 func Example() {
